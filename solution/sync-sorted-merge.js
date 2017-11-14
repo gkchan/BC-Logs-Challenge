@@ -5,7 +5,7 @@ module.exports = (logSources, printer) => {
     // Note: need to import sourceCount
 
     // const sourceCount = require('../index.js')
-    const sourceCount = 10
+    const sourceCount = 2
 
     // Note: syncLogSources is logSources?
 
@@ -37,40 +37,122 @@ module.exports = (logSources, printer) => {
     // keep track of second earliest date?
     // replace entry with next entry of same log source
 
+ 
     
     var earliestLogs = []
     var earliestDate = ""
 
     for (var i = 0; i < sourceCount; i++) {  
         var log = logSources[i].pop()
+        if (log === false) {
+            continue 
+        }
+
         if (earliestDate === "" | log.date < earliestDate) {
             earliestDate = log.date
         }
-        var log_dict = {log, i}
-        earliestLogs.push(log_dict)
+        var logDict = {log, i}
+        earliestLogs.push(logDict)
         // console.log(earliestLogs)
         for (var j = i-1; j >=0; j--) {
             // console.log(earliestLogs[j].log.date)
             if (log.date < earliestLogs[j].log.date) {
                 // console.log("swap")
                 earliestLogs[j+1] = earliestLogs[j]
-                earliestLogs[j] = log_dict
-
+                earliestLogs[j] = logDict
             }
-
-        }
-        
+        }     
     }   
     
-    console.log(earliestLogs, earliestDate)
+    // console.log(earliestLogs)
 
-    console.log(earliestDate)
+    while (earliestLogs.length > 0) {
+
+        // if (earliestLogs.length === 0) {
+        //     break
+        // }
+        // while (earliestLogs.length === 1) {
+
+            
+        //     var currentLog = logSources[0].pop()
+        //     if (currentLog === false) {
+        //         // earliestLogs.splice(0,1)
+        //         break
+
+        //     }
+        //     // console.log(currentLog)
+        //     printer.print(currentLog)
+
+        // }
+       
+
+        var logSourceIndex = earliestLogs[0].i
+        // console.log(logSourceIndex)
+        // console.log(earliestLogs[0].log)
+
+        printer.print(earliestLogs[0].log)
+
+        // Note: delete/replace log after printing
+
+        var currentLog = logSources[logSourceIndex].pop()
+        // if (currentLog === false) {
+        //     earliestLogs.splice(0,1)
+        //     continue
+        // }
+        // console.log(earliestLogs)
+        // console.log(earliestLogs[1])
+      
+        if (currentLog === false) {
+            earliestLogs.splice(0,1)
+            continue
+        }
+
+        while (currentLog.date < earliestLogs[1].log.date) {
+            // console.log(currentLog)
+            
+            printer.print(currentLog)
+            var currentLog = logSources[logSourceIndex].pop()
+            
+            // continue
+                // check continue
+  
+        }
+
+
+        // rewrite
+        // if (currentLog === false) {
+        //     continue
+        // }
+        earliestLogs[0] = { log: currentLog, i: logSourceIndex }
+
+        // rename var
+
+        // console.log(currentLog)
+
+
+        for (var k = 1; k < earliestLogs.length; k++) {
+            if (currentLog.date > earliestLogs[k].log.date) {
+                earliestLogs[k-1] = earliestLogs[k]
+                earliestLogs[k] = { log: currentLog, i: logSourceIndex }
+            }
+        }
+
+
+
+    // console.log(currentLog)
+
+    // console.log(earliestLogs, earliestDate)
+
+    }
+
+    // console.log(earliestDate)
 
     // earliestLogs.log.date.sort()   
     // console.log(earliestLogs)
 
     // console.log(logSources[0].last,logSources[1].last)
     // console.log(logSources[0].last.date > logSources[1].last.date)
+
 
 
 
@@ -142,8 +224,9 @@ module.exports = (logSources, printer) => {
     // var min = console.log(Math.min())
 
 	// throw new Error('Not implemented yet!  That part is up to you!')
-
     printer.done()
-    }
+
+    
+}
 
 // implement merge sort?

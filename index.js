@@ -5,7 +5,7 @@ const Printer = require('./lib/printer')
 
 // You can adjust this variable to see how your solutions perform under various "load"
 // const sourceCount = 100 default
-const sourceCount = 10
+const sourceCount = 2
 module.exports = sourceCount
 
 /**
