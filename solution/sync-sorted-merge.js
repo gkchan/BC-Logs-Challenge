@@ -5,7 +5,7 @@ module.exports = (logSources, printer) => {
     // Note: need to import sourceCount
 
     // const sourceCount = require('../index.js')
-    const sourceCount = 2
+    const sourceCount = 3
 
     // Note: syncLogSources is logSources?
 
@@ -68,28 +68,34 @@ module.exports = (logSources, printer) => {
 
     while (earliestLogs.length > 0) {
 
-        // if (earliestLogs.length === 0) {
-        //     break
-        // }
-        // while (earliestLogs.length === 1) {
+        
+        while (earliestLogs.length === 1) {
 
             
-        //     var currentLog = logSources[0].pop()
-        //     if (currentLog === false) {
-        //         // earliestLogs.splice(0,1)
-        //         break
+            var currentLog = logSources[0].pop()
+            if (currentLog === false) {
+                earliestLogs.splice(0,1)
+                break
 
-        //     }
-        //     // console.log(currentLog)
-        //     printer.print(currentLog)
+            }
+            // console.log(currentLog, 1)
+            printer.print(currentLog)
 
-        // }
+        }
+
+        if (earliestLogs.length === 0) {
+            break
+        }
        
 
         var logSourceIndex = earliestLogs[0].i
         // console.log(logSourceIndex)
-        // console.log(earliestLogs[0].log)
+        // console.log(earliestLogs[0].log, 2)
 
+        if (currentLog === false) {
+            earliestLogs.splice(0,1)
+            continue
+        }
         printer.print(earliestLogs[0].log)
 
         // Note: delete/replace log after printing
@@ -108,7 +114,7 @@ module.exports = (logSources, printer) => {
         }
 
         while (currentLog.date < earliestLogs[1].log.date) {
-            // console.log(currentLog)
+            // console.log(currentLog, 3)
             
             printer.print(currentLog)
             var currentLog = logSources[logSourceIndex].pop()
@@ -148,12 +154,7 @@ module.exports = (logSources, printer) => {
     // console.log(earliestDate)
 
     // earliestLogs.log.date.sort()   
-    // console.log(earliestLogs)
-
-    // console.log(logSources[0].last,logSources[1].last)
-    // console.log(logSources[0].last.date > logSources[1].last.date)
-
-
+   
 
 
 
@@ -169,14 +170,9 @@ module.exports = (logSources, printer) => {
 
     // var log_index, log
 
-    // console.log(earliestLogs)
 
     // // while (logSources != []) {
     // while (4===4) {
-
-
-  
-    //     // console.log(earliestLogs[0])
 
     //     log_index = earliestLogs[0].i
     //     if (log_index === 1) {
@@ -209,19 +205,12 @@ module.exports = (logSources, printer) => {
     // }
 
 
-
-    // if (earliestLogs === []) {
-        
-    // } else {
-    //     for (log in earliestLogs) {
-    //         if (current_log.date < log.date) {
-    //     }
-
+ 
     // earliestLogs.push((current_log, i))
 
     // earliestDate = Math.min()
 
-    // var min = console.log(Math.min())
+
 
 	// throw new Error('Not implemented yet!  That part is up to you!')
     printer.done()
