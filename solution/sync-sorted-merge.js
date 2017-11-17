@@ -24,7 +24,6 @@ module.exports = (logSources, printer) => {
     //     if (current_log === false) {
     //         break
     //     } else {
-    //         // console.log(current_log)
     //         printer.print(current_log)
     //     }
     // }
@@ -37,10 +36,14 @@ module.exports = (logSources, printer) => {
     // keep track of second earliest date?
     // replace entry with next entry of same log source
 
- 
-    
+
+    // function isFalse {
+
+
+    // }
+
     var earliestLogs = []
-    var earliestDate = ""
+    // var earliestDate = ""
 
     for (var i = 0; i < sourceCount; i++) {  
         var log = logSources[i].pop()
@@ -48,9 +51,9 @@ module.exports = (logSources, printer) => {
             continue 
         }
 
-        if (earliestDate === "" | log.date < earliestDate) {
-            earliestDate = log.date
-        }
+        // if (earliestDate === "" | log.date < earliestDate) {
+        //     earliestDate = log.date
+        // }
         var logDict = {log, i}
         earliestLogs.push(logDict)
         // console.log(earliestLogs)
@@ -63,48 +66,46 @@ module.exports = (logSources, printer) => {
             }
         }     
     }   
-    
-    // console.log(earliestLogs)
+
+    console.log(earliestLogs)
+
 
     while (earliestLogs.length > 0) {
 
-        
         while (earliestLogs.length === 1) {
-
-            
-            var currentLog = logSources[0].pop()
+            console.log(earliestLogs)
+            var logSourceIndex = earliestLogs[0].i
+            var currentLog = logSources[logSourceIndex].pop()
             if (currentLog === false) {
                 earliestLogs.splice(0,1)
                 break
-
             }
-            // console.log(currentLog, 1)
+            console.log(currentLog, 1)
             printer.print(currentLog)
-
         }
-
+        // console.log(earliestLogs.length)
         if (earliestLogs.length === 0) {
+            for (var i = 0;i < logSources.length; i++) {
+                console.log(logSources[i].drained)
+            }   
+            console.log("end")
             break
         }
        
-
         var logSourceIndex = earliestLogs[0].i
         // console.log(logSourceIndex)
         // console.log(earliestLogs[0].log, 2)
 
-        if (currentLog === false) {
-            earliestLogs.splice(0,1)
-            continue
-        }
+        // if (currentLog === false) {
+        //     earliestLogs.splice(0,1)
+        //     continue
+        // }
         printer.print(earliestLogs[0].log)
 
         // Note: delete/replace log after printing
 
         var currentLog = logSources[logSourceIndex].pop()
-        // if (currentLog === false) {
-        //     earliestLogs.splice(0,1)
-        //     continue
-        // }
+  
         // console.log(earliestLogs)
         // console.log(earliestLogs[1])
       
@@ -113,28 +114,30 @@ module.exports = (logSources, printer) => {
             continue
         }
 
+        // sometimes throws error due to index
+        // while (earliestLogs.length === 1 | currentLog.date < earliestLogs[1].log.date) {
         while (currentLog.date < earliestLogs[1].log.date) {
+
             // console.log(currentLog, 3)
-            
             printer.print(currentLog)
+            // for (var i = 0;i < logSources.length; i++) {
+            //         console.log(logSources[i].drained)
+            //     }   
             var currentLog = logSources[logSourceIndex].pop()
-            
-            // continue
-                // check continue
-  
+            if (currentLog === false) {
+                earliestLogs.splice(0,1)
+               
+                break
+            }
         }
 
-
         // rewrite
-        // if (currentLog === false) {
-        //     continue
-        // }
+        if (currentLog === false) {
+            continue
+        }
         earliestLogs[0] = { log: currentLog, i: logSourceIndex }
 
-        // rename var
-
         // console.log(currentLog)
-
 
         for (var k = 1; k < earliestLogs.length; k++) {
             if (currentLog.date > earliestLogs[k].log.date) {
@@ -143,79 +146,27 @@ module.exports = (logSources, printer) => {
             }
         }
 
-
-
-    // console.log(currentLog)
-
-    // console.log(earliestLogs, earliestDate)
-
     }
 
-    // console.log(earliestDate)
+
+    // console.log(earliestLogs)
+
+    // rename var
+    // console.log(currentLog)
+    // console.log(earliestLogs, earliestDate)
+
 
     // earliestLogs.log.date.sort()   
-   
 
-
-
-    // var earliestLogs = []
-    // for (var i = 0; i < 1; i++) {  
-
-    //     // printer.print(logSources[i].pop())
-    
-    //     var log = logSources[i].pop()
-    //     earliestLogs.push({log, i})
     //     earliestLogs.sort()    
-    // }   
 
-    // var log_index, log
+    // while (logSources != [])
 
-
-    // // while (logSources != []) {
-    // while (4===4) {
-
-    //     log_index = earliestLogs[0].i
-    //     if (log_index === 1) {
-    //         console.log("error")
-    //     }
-    //     printer.print(earliestLogs[0].log)
-
-    //     earliestLogs[log_index] = logSources[log_index].pop()
-    //     // earliestLogs.splice(0, 1)
-
-    //     log = logSources[log_index].pop()
-    //     if (log === false) {
-    //         logSources.splice(i,1)
-    //         console.log("delete") 
-    //         break
-    //         // console.log(logSources)
-    //         // console.log(log, 1)
-    //         // earliestLogs.sort()
-    //         // console.log("E", earliestLogs)
-    //     } else {
-    //         earliestLogs.push({log, i})
-    //         // console.log("E", earliestLogs)
-    //         // if (i === 1) {
-    //         //     console.log("error")
-    //         // }
-
-    //         earliestLogs.sort()
-    //         // console.log(log, 2)
-    //     }
-    // }
-
-
- 
     // earliestLogs.push((current_log, i))
 
     // earliestDate = Math.min()
 
-
-
 	// throw new Error('Not implemented yet!  That part is up to you!')
     printer.done()
 
-    
 }
-
-// implement merge sort?
