@@ -91,9 +91,7 @@ module.exports = (logSources, printer) => {
         }
         console.log(earliestLogs.length)
         if (earliestLogs.length === 0) {
-            for (var i = 0;i < logSources.length; i++) {
-                console.log(logSources[i].drained)
-            }   
+            
             console.log("end")
             break
         }
@@ -152,5 +150,23 @@ module.exports = (logSources, printer) => {
     }
 
     printer.done()
+
+    function testIsDrained() {
+        var drained = true
+        for (var i = 0;i < logSources.length; i++) {
+            if (logSources[i].drained === false) {
+                console.log("Log Source " + i + " is not drained.")
+                drained = false
+            }
+        }
+       
+        if (drained === true) {
+            console.log("All sources are drained.")
+        } else {
+            throw new Error("Not all sources were drained.")
+        }
+    }
+
+    testIsDrained()
 
 }
