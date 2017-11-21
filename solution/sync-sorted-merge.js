@@ -2,6 +2,8 @@
 
 module.exports = (logSources, printer) => {
 
+    return
+
     const sourceCount = logSources.length
 
     // console.log(sourceCount)
@@ -31,7 +33,7 @@ module.exports = (logSources, printer) => {
 
     // earliestLogs.push((current_log, i))
     // rename var
-
+    // let
     // function isFalse {
 
 
