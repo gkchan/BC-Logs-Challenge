@@ -5,6 +5,8 @@ module.exports = (logSources, printer) => {
     // return
 
     const sourceCount = logSources.length
+    var entriesPopped = 0
+
   
    // This solution pops the first log entry from each log source and tracks which log source they came from.
    // It then sorts the entries and keeps track of them with something similar to merge sort with insertion sort.
@@ -22,6 +24,7 @@ module.exports = (logSources, printer) => {
  
     for (var i = 0; i < sourceCount; i++) {  
         var log = logSources[i].pop()
+        entriesPopped ++
         if (log === false) {
             continue 
         }
@@ -46,6 +49,7 @@ module.exports = (logSources, printer) => {
     
             var logSourceIndex = earliestLogs[0].i
             var currentLog = logSources[logSourceIndex].pop()
+            entriesPopped ++
        
             if (currentLog === false) {
                 earliestLogs.splice(0,1)
@@ -60,6 +64,7 @@ module.exports = (logSources, printer) => {
         }
 
         var currentLog = logSources[logSourceIndex].pop()
+        entriesPopped ++
      
         if (currentLog === false) {
             earliestLogs.splice(0,1)
@@ -69,6 +74,7 @@ module.exports = (logSources, printer) => {
         while (currentLog.date < earliestLogs[1].log.date) {
             printer.print(currentLog)
             var currentLog = logSources[logSourceIndex].pop()
+            entriesPopped ++
      
             if (currentLog === false) {
                 earliestLogs.splice(0,1)
@@ -92,6 +98,8 @@ module.exports = (logSources, printer) => {
     }
 
     printer.done()
+
+    console.log(entriesPopped)
 
 
     // tests whether all sources are drained
