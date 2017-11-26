@@ -34,14 +34,43 @@ module.exports = async (logSources, printer) => {
         var logDict = {log, i}
         earliestLogs.push(logDict)
     
-        for (var j = i-1; j >=0; j--) {
-            if (log.date < earliestLogs[j].log.date) {
-                earliestLogs[j+1] = earliestLogs[j]
-                earliestLogs[j] = logDict
-            }
-        }     
+        // for (var j = i-1; j >=0; j--) {
+        //     if (log.date < earliestLogs[j].log.date) {
+        //         earliestLogs[j+1] = earliestLogs[j]
+        //         earliestLogs[j] = logDict
+        //     }
+        // }     
     }   
 
+    function quickSortLogs(entriesList) {
+
+        if (entriesList.length < 2) {
+            return entriesList
+        }
+
+        var pivot = entriesList[Math.floor(entriesList.length/2)].log.date
+
+        var before = []
+        var same = []
+        var after = []
+
+        for (var i = 0; i < entriesList.length; i++) {
+
+            if (entriesList[i].log.date < pivot) {
+                before.push(entriesList[i])
+            } else if (entriesList[i].log.date === pivot) {
+                same.push(entriesList[i])
+            } else if (entriesList[i].log.date > pivot) {
+                after.push(entriesList[i])
+            }
+
+        }
+
+        return quickSortLogs(before).concat(quickSortLogs(same), quickSortLogs(after))
+
+    }
+
+    earliestLogs = quickSortLogs(earliestLogs)
 
     while (earliestLogs.length > 0) {
   

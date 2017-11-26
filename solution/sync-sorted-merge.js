@@ -2,7 +2,7 @@
 
 module.exports = (logSources, printer) => {
 
-    // return
+    return
 
     const sourceCount = logSources.length
     var entriesPopped = 0
