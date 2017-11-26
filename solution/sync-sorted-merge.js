@@ -31,7 +31,7 @@ module.exports = (logSources, printer) => {
 
         var logDict = {log, i}
         earliestLogs.push(logDict)
-     
+    
         for (var j = i-1; j >=0; j--) {
             if (log.date < earliestLogs[j].log.date) {
                 earliestLogs[j+1] = earliestLogs[j]
@@ -39,6 +39,7 @@ module.exports = (logSources, printer) => {
             }
         }     
     }   
+
 
     while (earliestLogs.length > 0) {
   
@@ -122,7 +123,7 @@ module.exports = (logSources, printer) => {
 
     testIsDrained()
 
-    for (var i = 0;i < logSources.length; i++) {
-        console.log(logSources[i].drained)
-    }   
+    // for (var i = 0;i < logSources.length; i++) {
+    //     console.log(logSources[i].drained)
+    // }   
 }
